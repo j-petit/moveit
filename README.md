@@ -1,6 +1,6 @@
 <img src="http://moveit.ros.org/assets/images/moveit2_logo_black.png" alt="MoveIt! Logo" width="200"/>
 
-The MoveIt! Motion Planning Framework
+The MoveIt! Motion Planning Framework!
 
 Currently we support ROS Indigo, Kinetic, and Melodic.
 
