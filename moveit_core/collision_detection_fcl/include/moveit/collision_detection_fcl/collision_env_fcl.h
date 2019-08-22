@@ -65,32 +65,32 @@ public:
   ~CollisionEnvFCL() override;
 
   virtual void checkSelfCollision(const CollisionRequest& req, CollisionResult& res,
-                                  const robot_state::RobotState& state) const override;
+                                  const robot_state::RobotState& state) override;
 
   virtual void checkSelfCollision(const CollisionRequest& req, CollisionResult& res,
                                   const robot_state::RobotState& state,
-                                  const AllowedCollisionMatrix& acm) const override;
+                                  const AllowedCollisionMatrix& acm) override;
 
   virtual void checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
-                                   const robot_state::RobotState& state) const override;
+                                   const robot_state::RobotState& state) override;
 
   virtual void checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                    const robot_state::RobotState& state,
-                                   const AllowedCollisionMatrix& acm) const override;
+                                   const AllowedCollisionMatrix& acm) override;
 
   virtual void checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                    const robot_state::RobotState& state1, const robot_state::RobotState& state2,
-                                   const AllowedCollisionMatrix& acm) const override;
+                                   const AllowedCollisionMatrix& acm) override;
 
   virtual void checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                    const robot_state::RobotState& state1,
-                                   const robot_state::RobotState& state2) const override;
+                                   const robot_state::RobotState& state2) override;
 
   virtual void distanceSelf(const DistanceRequest& req, DistanceResult& res,
-                            const robot_state::RobotState& state) const override;
+                            const robot_state::RobotState& state) override;
 
   virtual void distanceRobot(const DistanceRequest& req, DistanceResult& res,
-                             const robot_state::RobotState& state) const override;
+                             const robot_state::RobotState& state) override;
 
   void setWorld(const WorldPtr& world) override;
 
@@ -101,10 +101,10 @@ protected:
 
   /** \brief Bundles the different checkSelfCollision functions into a single function */
   void checkSelfCollisionHelper(const CollisionRequest& req, CollisionResult& res, const robot_state::RobotState& state,
-                                const AllowedCollisionMatrix* acm) const;
+                                const AllowedCollisionMatrix* acm);
 
   void checkRobotCollisionHelper(const CollisionRequest& req, CollisionResult& res,
-                                 const robot_state::RobotState& state, const AllowedCollisionMatrix* acm) const;
+                                 const robot_state::RobotState& state, const AllowedCollisionMatrix* acm);
 
   /** \brief Construct an FCL collision object from MoveIt's World::Object. */
   void constructFCLObjectWorld(const World::Object* obj, FCLObject& fcl_obj) const;

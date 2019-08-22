@@ -289,7 +289,7 @@ void CollisionEnv::setWorld(const WorldPtr& world)
 }
 
 void CollisionEnv::checkCollision(const CollisionRequest& req, CollisionResult& res,
-                                  const robot_state::RobotState& state) const
+                                  const robot_state::RobotState& state)
 {
   checkSelfCollision(req, res, state);
   if (!res.collision || (req.contacts && res.contacts.size() < req.max_contacts))
@@ -297,7 +297,7 @@ void CollisionEnv::checkCollision(const CollisionRequest& req, CollisionResult& 
 }
 
 void CollisionEnv::checkCollision(const CollisionRequest& req, CollisionResult& res,
-                                  const robot_state::RobotState& state, const AllowedCollisionMatrix& acm) const
+                                  const robot_state::RobotState& state, const AllowedCollisionMatrix& acm)
 {
   checkSelfCollision(req, res, state, acm);
   if (!res.collision || (req.contacts && res.contacts.size() < req.max_contacts))

@@ -51,7 +51,7 @@ double getRandomDouble()
   return ((double)random() / (double)RAND_MAX);
 }
 
-ChompOptimizer::ChompOptimizer(ChompTrajectory* trajectory, const planning_scene::PlanningSceneConstPtr& planning_scene,
+ChompOptimizer::ChompOptimizer(ChompTrajectory* trajectory, const planning_scene::PlanningScenePtr& planning_scene,
                                const std::string& planning_group, const ChompParameters* parameters,
                                const moveit::core::RobotState& start_state)
   : full_trajectory_(trajectory)

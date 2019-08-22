@@ -43,7 +43,7 @@
 
 namespace chomp
 {
-bool ChompPlanner::solve(const planning_scene::PlanningSceneConstPtr& planning_scene,
+bool ChompPlanner::solve(const planning_scene::PlanningScenePtr& planning_scene,
                          const planning_interface::MotionPlanRequest& req, const ChompParameters& params,
                          planning_interface::MotionPlanDetailedResponse& res) const
 {

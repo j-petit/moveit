@@ -89,14 +89,14 @@ public:
                   double resolution, double collision_tolerance, double max_propogation_distance);
 
   void checkSelfCollision(const collision_detection::CollisionRequest& req, collision_detection::CollisionResult& res,
-                          const moveit::core::RobotState& state) const override;
+                          const moveit::core::RobotState& state) override;
 
   void checkSelfCollision(const collision_detection::CollisionRequest& req, collision_detection::CollisionResult& res,
                           const moveit::core::RobotState& state, GroupStateRepresentationPtr& gsr) const;
 
   void checkSelfCollision(const collision_detection::CollisionRequest& req, collision_detection::CollisionResult& res,
                           const moveit::core::RobotState& state,
-                          const collision_detection::AllowedCollisionMatrix& acm) const override;
+                          const collision_detection::AllowedCollisionMatrix& acm) override;
 
   void checkSelfCollision(const collision_detection::CollisionRequest& req, collision_detection::CollisionResult& res,
                           const moveit::core::RobotState& state, const collision_detection::AllowedCollisionMatrix& acm,
@@ -117,7 +117,7 @@ public:
   };
 
   void distanceSelf(const DistanceRequest& req, DistanceResult& res,
-                    const robot_state::RobotState& state) const override
+                    const robot_state::RobotState& state) override
   {
     ROS_ERROR_NAMED("collision_distance_field", "Not implemented");
   }
@@ -145,25 +145,25 @@ public:
   ~CollisionEnvDistanceField() override;
 
   void checkCollision(const CollisionRequest& req, CollisionResult& res,
-                      const robot_state::RobotState& state) const override;
+                      const robot_state::RobotState& state) override;
 
   virtual void checkCollision(const CollisionRequest& req, CollisionResult& res, const robot_state::RobotState& state,
                               GroupStateRepresentationPtr& gsr) const;
 
   void checkCollision(const CollisionRequest& req, CollisionResult& res, const robot_state::RobotState& state,
-                      const AllowedCollisionMatrix& acm) const override;
+                      const AllowedCollisionMatrix& acm) override;
 
   virtual void checkCollision(const CollisionRequest& req, CollisionResult& res, const robot_state::RobotState& state,
                               const AllowedCollisionMatrix& acm, GroupStateRepresentationPtr& gsr) const;
 
   void checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
-                           const robot_state::RobotState& state) const override;
+                           const robot_state::RobotState& state) override;
 
   virtual void checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                    const robot_state::RobotState& state, GroupStateRepresentationPtr& gsr) const;
 
   void checkRobotCollision(const CollisionRequest& req, CollisionResult& res, const robot_state::RobotState& state,
-                           const AllowedCollisionMatrix& acm) const override;
+                           const AllowedCollisionMatrix& acm) override;
 
   virtual void checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                    const robot_state::RobotState& state, const AllowedCollisionMatrix& acm,
@@ -171,11 +171,11 @@ public:
 
   virtual void checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                    const robot_state::RobotState& state1, const robot_state::RobotState& state2,
-                                   const AllowedCollisionMatrix& acm) const override;
+                                   const AllowedCollisionMatrix& acm) override;
 
   virtual void checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                    const robot_state::RobotState& state1,
-                                   const robot_state::RobotState& state2) const override;
+                                   const robot_state::RobotState& state2) override;
 
   virtual double distanceRobot(const robot_state::RobotState& state, bool verbose = false) const
   {
@@ -189,7 +189,7 @@ public:
   }
 
   void distanceRobot(const DistanceRequest& req, DistanceResult& res,
-                     const robot_state::RobotState& state) const override
+                     const robot_state::RobotState& state) override
   {
     ROS_ERROR_NAMED("collision_distance_field", "Not implemented");
   }

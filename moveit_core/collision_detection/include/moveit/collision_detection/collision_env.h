@@ -82,7 +82,7 @@ public:
    *  @param res A CollisionResult object that encapsulates the collision result
    *  @param state The kinematic state for which checks are being made */
   virtual void checkSelfCollision(const CollisionRequest& req, CollisionResult& res,
-                                  const robot_state::RobotState& state) const = 0;
+                                  const robot_state::RobotState& state) = 0;
 
   /** \brief Check for self collision. Allowed collisions specified by the allowed collision matrix are
    *   taken into account.
@@ -91,7 +91,7 @@ public:
    *  @param state The kinematic state for which checks are being made
    *  @param acm The allowed collision matrix. */
   virtual void checkSelfCollision(const CollisionRequest& req, CollisionResult& res,
-                                  const robot_state::RobotState& state, const AllowedCollisionMatrix& acm) const = 0;
+                                  const robot_state::RobotState& state, const AllowedCollisionMatrix& acm) = 0;
 
   /** \brief Check whether the robot model is in collision with itself or the world at a particular state.
    *  Any collision between any pair of links is checked for, NO collisions are ignored.
@@ -99,7 +99,7 @@ public:
    *  @param res A CollisionResult object that encapsulates the collision result
    *  @param state The kinematic state for which checks are being made         */
   virtual void checkCollision(const CollisionRequest& req, CollisionResult& res,
-                              const robot_state::RobotState& state) const;
+                              const robot_state::RobotState& state);
 
   /** \brief Check whether the robot model is in collision with itself or the world at a particular state.
    *  Allowed collisions specified by the allowed collision matrix are taken into account.
@@ -108,7 +108,7 @@ public:
    *  @param state The kinematic state for which checks are being made
    *  @param acm The allowed collision matrix. */
   virtual void checkCollision(const CollisionRequest& req, CollisionResult& res, const robot_state::RobotState& state,
-                              const AllowedCollisionMatrix& acm) const;
+                              const AllowedCollisionMatrix& acm);
 
   /** \brief Check whether the robot model is in collision with the world. Any collisions between a robot link
    *  and the world are considered. Self collisions are not checked.
@@ -118,7 +118,7 @@ public:
    *  @param state The kinematic state for which checks are being made
    */
   virtual void checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
-                                   const robot_state::RobotState& state) const = 0;
+                                   const robot_state::RobotState& state) = 0;
 
   /** \brief Check whether the robot model is in collision with the world.
    *  Allowed collisions are ignored. Self collisions are not checked.
@@ -128,7 +128,7 @@ public:
    *  @param state The kinematic state for which checks are being made
    *  @param acm The allowed collision matrix.*/
   virtual void checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
-                                   const robot_state::RobotState& state, const AllowedCollisionMatrix& acm) const = 0;
+                                   const robot_state::RobotState& state, const AllowedCollisionMatrix& acm) = 0;
 
   /** \brief Check whether the robot model is in collision with the world in a continuous manner (between two robot
    * states).
@@ -141,7 +141,7 @@ public:
    *  @param acm The allowed collision matrix.*/
   virtual void checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                    const robot_state::RobotState& state1, const robot_state::RobotState& state2,
-                                   const AllowedCollisionMatrix& acm) const = 0;
+                                   const AllowedCollisionMatrix& acm) = 0;
 
   /** \brief Check whether the robot model is in collision with the world in a continuous manner (between two robot
    * states).
@@ -154,17 +154,17 @@ public:
    *  @param acm The allowed collision matrix.*/
   virtual void checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                    const robot_state::RobotState& state1,
-                                   const robot_state::RobotState& state2) const = 0;
+                                   const robot_state::RobotState& state2) = 0;
 
   /** \brief The distance to self-collision given the robot is at state \e state.
       @param req A DistanceRequest object that encapsulates the distance request
       @param res A DistanceResult object that encapsulates the distance result
       @param state The state of this robot to consider */
   virtual void distanceSelf(const DistanceRequest& req, DistanceResult& res,
-                            const robot_state::RobotState& state) const = 0;
+                            const robot_state::RobotState& state) = 0;
 
   /** \brief The distance to self-collision given the robot is at state \e state. */
-  inline double distanceSelf(const robot_state::RobotState& state) const
+  inline double distanceSelf(const robot_state::RobotState& state)
   {
     DistanceRequest req;
     DistanceResult res;
@@ -176,7 +176,7 @@ public:
 
   /** \brief The distance to self-collision given the robot is at state \e state, ignoring
       the distances between links that are allowed to always collide (as specified by \e acm) */
-  inline double distanceSelf(const robot_state::RobotState& state, const AllowedCollisionMatrix& acm) const
+  inline double distanceSelf(const robot_state::RobotState& state, const AllowedCollisionMatrix& acm)
   {
     DistanceRequest req;
     DistanceResult res;
@@ -193,13 +193,13 @@ public:
    *  @param robot The robot to check distance for
    *  @param state The state for the robot to check distances from */
   virtual void distanceRobot(const DistanceRequest& req, DistanceResult& res,
-                             const robot_state::RobotState& state) const = 0;
+                             const robot_state::RobotState& state) = 0;
 
   /** \brief Compute the shortest distance between a robot and the world
    *  @param robot The robot to check distance for
    *  @param state The state for the robot to check distances from
    *  @param verbose Output debug information about distance checks */
-  inline double distanceRobot(const robot_state::RobotState& state, bool verbose = false) const
+  inline double distanceRobot(const robot_state::RobotState& state, bool verbose = false)
   {
     DistanceRequest req;
     DistanceResult res;
@@ -218,7 +218,7 @@ public:
    * allowed to be in collision.
    *  @param verbose Output debug information about distance checks */
   inline double distanceRobot(const robot_state::RobotState& state, const AllowedCollisionMatrix& acm,
-                              bool verbose = false) const
+                              bool verbose = false)
   {
     DistanceRequest req;
     DistanceResult res;

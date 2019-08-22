@@ -223,20 +223,20 @@ void CollisionEnvFCL::allocSelfCollisionBroadPhase(const robot_state::RobotState
 }
 
 void CollisionEnvFCL::checkSelfCollision(const CollisionRequest& req, CollisionResult& res,
-                                         const robot_state::RobotState& state) const
+                                         const robot_state::RobotState& state)
 {
   checkSelfCollisionHelper(req, res, state, nullptr);
 }
 
 void CollisionEnvFCL::checkSelfCollision(const CollisionRequest& req, CollisionResult& res,
-                                         const robot_state::RobotState& state, const AllowedCollisionMatrix& acm) const
+                                         const robot_state::RobotState& state, const AllowedCollisionMatrix& acm)
 {
   checkSelfCollisionHelper(req, res, state, &acm);
 }
 
 void CollisionEnvFCL::checkSelfCollisionHelper(const CollisionRequest& req, CollisionResult& res,
                                                const robot_state::RobotState& state,
-                                               const AllowedCollisionMatrix* acm) const
+                                               const AllowedCollisionMatrix* acm)
 {
   FCLManager manager;
   allocSelfCollisionBroadPhase(state, manager);
@@ -257,34 +257,34 @@ void CollisionEnvFCL::checkSelfCollisionHelper(const CollisionRequest& req, Coll
 }
 
 void CollisionEnvFCL::checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
-                                          const robot_state::RobotState& state) const
+                                          const robot_state::RobotState& state)
 {
   checkRobotCollisionHelper(req, res, state, nullptr);
 }
 
 void CollisionEnvFCL::checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
-                                          const robot_state::RobotState& state, const AllowedCollisionMatrix& acm) const
+                                          const robot_state::RobotState& state, const AllowedCollisionMatrix& acm)
 {
   checkRobotCollisionHelper(req, res, state, &acm);
 }
 
 void CollisionEnvFCL::checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                           const robot_state::RobotState& state1,
-                                          const robot_state::RobotState& state2) const
+                                          const robot_state::RobotState& state2)
 {
   ROS_ERROR_NAMED("collision_detection.bullet", "Continuous collision not implemented");
 }
 
 void CollisionEnvFCL::checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                           const robot_state::RobotState& state1, const robot_state::RobotState& state2,
-                                          const AllowedCollisionMatrix& acm) const
+                                          const AllowedCollisionMatrix& acm)
 {
   ROS_ERROR_NAMED("collision_detection.fcl", "Not implemented");
 }
 
 void CollisionEnvFCL::checkRobotCollisionHelper(const CollisionRequest& req, CollisionResult& res,
                                                 const robot_state::RobotState& state,
-                                                const AllowedCollisionMatrix* acm) const
+                                                const AllowedCollisionMatrix* acm)
 {
   FCLObject fcl_obj;
   constructFCLObjectRobot(state, fcl_obj);
@@ -308,7 +308,7 @@ void CollisionEnvFCL::checkRobotCollisionHelper(const CollisionRequest& req, Col
 }
 
 void CollisionEnvFCL::distanceSelf(const DistanceRequest& req, DistanceResult& res,
-                                   const robot_state::RobotState& state) const
+                                   const robot_state::RobotState& state)
 {
   FCLManager manager;
   allocSelfCollisionBroadPhase(state, manager);
@@ -318,7 +318,7 @@ void CollisionEnvFCL::distanceSelf(const DistanceRequest& req, DistanceResult& r
 }
 
 void CollisionEnvFCL::distanceRobot(const DistanceRequest& req, DistanceResult& res,
-                                    const robot_state::RobotState& state) const
+                                    const robot_state::RobotState& state)
 {
   FCLObject fcl_obj;
   constructFCLObjectRobot(state, fcl_obj);

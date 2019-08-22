@@ -373,6 +373,11 @@ PlanningScene::getCollisionEnvUnpadded(const std::string& collision_detector_nam
   return it->second->getCollisionEnvUnpadded();
 }
 
+const collision_detection::CollisionEnvPtr& PlanningScene::getCollisionEnvUnpaddedNonConst() const
+{
+  return active_collision_->cenv_unpadded_;
+}
+
 void PlanningScene::clearDiffs()
 {
   if (!parent_)
@@ -484,15 +489,15 @@ void PlanningScene::checkCollision(const collision_detection::CollisionRequest& 
 
 void PlanningScene::checkCollision(const collision_detection::CollisionRequest& req,
                                    collision_detection::CollisionResult& res,
-                                   const robot_state::RobotState& robot_state) const
+                                   const robot_state::RobotState& robot_state)
 {
   // check collision with the world using the padded version
-  getCollisionEnv()->checkRobotCollision(req, res, robot_state, getAllowedCollisionMatrix());
+  getCollisionEnvNonConst()->checkRobotCollision(req, res, robot_state, getAllowedCollisionMatrix());
 
   if (!res.collision || (req.contacts && res.contacts.size() < req.max_contacts))
   {
     // do self-collision checking with the unpadded version of the robot
-    getCollisionEnvUnpadded()->checkSelfCollision(req, res, robot_state, getAllowedCollisionMatrix());
+    getCollisionEnvUnpaddedNonConst()->checkSelfCollision(req, res, robot_state, getAllowedCollisionMatrix());
   }
 }
 
@@ -508,14 +513,14 @@ void PlanningScene::checkSelfCollision(const collision_detection::CollisionReque
 void PlanningScene::checkCollision(const collision_detection::CollisionRequest& req,
                                    collision_detection::CollisionResult& res,
                                    const robot_state::RobotState& robot_state,
-                                   const collision_detection::AllowedCollisionMatrix& acm) const
+                                   const collision_detection::AllowedCollisionMatrix& acm)
 {
   // check collision with the world using the padded version
-  getCollisionEnv()->checkRobotCollision(req, res, robot_state, acm);
+  getCollisionEnvNonConst()->checkRobotCollision(req, res, robot_state, acm);
 
   // do self-collision checking with the unpadded version of the robot
   if (!res.collision || (req.contacts && res.contacts.size() < req.max_contacts))
-    getCollisionEnvUnpadded()->checkSelfCollision(req, res, robot_state, acm);
+    getCollisionEnvUnpaddedNonConst()->checkSelfCollision(req, res, robot_state, acm);
 }
 
 void PlanningScene::checkCollisionUnpadded(const collision_detection::CollisionRequest& req,
@@ -530,15 +535,15 @@ void PlanningScene::checkCollisionUnpadded(const collision_detection::CollisionR
 void PlanningScene::checkCollisionUnpadded(const collision_detection::CollisionRequest& req,
                                            collision_detection::CollisionResult& res,
                                            const robot_state::RobotState& robot_state,
-                                           const collision_detection::AllowedCollisionMatrix& acm) const
+                                           const collision_detection::AllowedCollisionMatrix& acm)
 {
   // check collision with the world using the unpadded version
-  getCollisionEnvUnpadded()->checkRobotCollision(req, res, robot_state, acm);
+  getCollisionEnvUnpaddedNonConst()->checkRobotCollision(req, res, robot_state, acm);
 
   // do self-collision checking with the unpadded version of the robot
   if (!res.collision || (req.contacts && res.contacts.size() < req.max_contacts))
   {
-    getCollisionEnvUnpadded()->checkSelfCollision(req, res, robot_state, acm);
+    getCollisionEnvUnpaddedNonConst()->checkSelfCollision(req, res, robot_state, acm);
   }
 }
 
@@ -552,7 +557,7 @@ void PlanningScene::getCollidingPairs(collision_detection::CollisionResult::Cont
 
 void PlanningScene::getCollidingPairs(collision_detection::CollisionResult::ContactMap& contacts,
                                       const robot_state::RobotState& robot_state,
-                                      const collision_detection::AllowedCollisionMatrix& acm) const
+                                      const collision_detection::AllowedCollisionMatrix& acm)
 {
   collision_detection::CollisionRequest req;
   req.contacts = true;
@@ -572,7 +577,7 @@ void PlanningScene::getCollidingLinks(std::vector<std::string>& links)
 }
 
 void PlanningScene::getCollidingLinks(std::vector<std::string>& links, const robot_state::RobotState& robot_state,
-                                      const collision_detection::AllowedCollisionMatrix& acm) const
+                                      const collision_detection::AllowedCollisionMatrix& acm)
 {
   collision_detection::CollisionResult::ContactMap contacts;
   getCollidingPairs(contacts, robot_state, acm);
@@ -2003,7 +2008,7 @@ void PlanningScene::removeObjectColor(const std::string& object_id)
     object_colors_->erase(object_id);
 }
 
-bool PlanningScene::isStateColliding(const moveit_msgs::RobotState& state, const std::string& group, bool verbose) const
+bool PlanningScene::isStateColliding(const moveit_msgs::RobotState& state, const std::string& group, bool verbose)
 {
   robot_state::RobotState s(getCurrentState());
   robot_state::robotStateMsgToRobotState(getTransforms(), state, s);
@@ -2018,7 +2023,7 @@ bool PlanningScene::isStateColliding(const std::string& group, bool verbose)
     return isStateColliding(getCurrentState(), group, verbose);
 }
 
-bool PlanningScene::isStateColliding(const robot_state::RobotState& state, const std::string& group, bool verbose) const
+bool PlanningScene::isStateColliding(const robot_state::RobotState& state, const std::string& group, bool verbose)
 {
   collision_detection::CollisionRequest req;
   req.verbose = verbose;
@@ -2080,20 +2085,20 @@ bool PlanningScene::isStateConstrained(const robot_state::RobotState& state,
   return constr.decide(state, verbose).satisfied;
 }
 
-bool PlanningScene::isStateValid(const robot_state::RobotState& state, const std::string& group, bool verbose) const
+bool PlanningScene::isStateValid(const robot_state::RobotState& state, const std::string& group, bool verbose)
 {
   static const moveit_msgs::Constraints EMP_CONSTRAINTS;
   return isStateValid(state, EMP_CONSTRAINTS, group, verbose);
 }
 
-bool PlanningScene::isStateValid(const moveit_msgs::RobotState& state, const std::string& group, bool verbose) const
+bool PlanningScene::isStateValid(const moveit_msgs::RobotState& state, const std::string& group, bool verbose)
 {
   static const moveit_msgs::Constraints EMP_CONSTRAINTS;
   return isStateValid(state, EMP_CONSTRAINTS, group, verbose);
 }
 
 bool PlanningScene::isStateValid(const moveit_msgs::RobotState& state, const moveit_msgs::Constraints& constr,
-                                 const std::string& group, bool verbose) const
+                                 const std::string& group, bool verbose)
 {
   robot_state::RobotState s(getCurrentState());
   robot_state::robotStateMsgToRobotState(getTransforms(), state, s);
@@ -2101,7 +2106,7 @@ bool PlanningScene::isStateValid(const moveit_msgs::RobotState& state, const mov
 }
 
 bool PlanningScene::isStateValid(const robot_state::RobotState& state, const moveit_msgs::Constraints& constr,
-                                 const std::string& group, bool verbose) const
+                                 const std::string& group, bool verbose)
 {
   if (isStateColliding(state, group, verbose))
     return false;
@@ -2112,7 +2117,7 @@ bool PlanningScene::isStateValid(const robot_state::RobotState& state, const mov
 
 bool PlanningScene::isStateValid(const robot_state::RobotState& state,
                                  const kinematic_constraints::KinematicConstraintSet& constr, const std::string& group,
-                                 bool verbose) const
+                                 bool verbose)
 {
   if (isStateColliding(state, group, verbose))
     return false;
@@ -2123,7 +2128,7 @@ bool PlanningScene::isStateValid(const robot_state::RobotState& state,
 
 bool PlanningScene::isPathValid(const moveit_msgs::RobotState& start_state,
                                 const moveit_msgs::RobotTrajectory& trajectory, const std::string& group, bool verbose,
-                                std::vector<std::size_t>* invalid_index) const
+                                std::vector<std::size_t>* invalid_index)
 {
   static const moveit_msgs::Constraints EMP_CONSTRAINTS;
   static const std::vector<moveit_msgs::Constraints> EMP_CONSTRAINTS_VECTOR;
@@ -2133,7 +2138,7 @@ bool PlanningScene::isPathValid(const moveit_msgs::RobotState& start_state,
 bool PlanningScene::isPathValid(const moveit_msgs::RobotState& start_state,
                                 const moveit_msgs::RobotTrajectory& trajectory,
                                 const moveit_msgs::Constraints& path_constraints, const std::string& group,
-                                bool verbose, std::vector<std::size_t>* invalid_index) const
+                                bool verbose, std::vector<std::size_t>* invalid_index)
 {
   static const std::vector<moveit_msgs::Constraints> EMP_CONSTRAINTS_VECTOR;
   return isPathValid(start_state, trajectory, path_constraints, EMP_CONSTRAINTS_VECTOR, group, verbose, invalid_index);
@@ -2143,7 +2148,7 @@ bool PlanningScene::isPathValid(const moveit_msgs::RobotState& start_state,
                                 const moveit_msgs::RobotTrajectory& trajectory,
                                 const moveit_msgs::Constraints& path_constraints,
                                 const moveit_msgs::Constraints& goal_constraints, const std::string& group,
-                                bool verbose, std::vector<std::size_t>* invalid_index) const
+                                bool verbose, std::vector<std::size_t>* invalid_index)
 {
   std::vector<moveit_msgs::Constraints> goal_constraints_vector(1, goal_constraints);
   return isPathValid(start_state, trajectory, path_constraints, goal_constraints_vector, group, verbose, invalid_index);
@@ -2153,7 +2158,7 @@ bool PlanningScene::isPathValid(const moveit_msgs::RobotState& start_state,
                                 const moveit_msgs::RobotTrajectory& trajectory,
                                 const moveit_msgs::Constraints& path_constraints,
                                 const std::vector<moveit_msgs::Constraints>& goal_constraints, const std::string& group,
-                                bool verbose, std::vector<std::size_t>* invalid_index) const
+                                bool verbose, std::vector<std::size_t>* invalid_index)
 {
   robot_trajectory::RobotTrajectory t(getRobotModel(), group);
   robot_state::RobotState start(getCurrentState());
@@ -2165,7 +2170,7 @@ bool PlanningScene::isPathValid(const moveit_msgs::RobotState& start_state,
 bool PlanningScene::isPathValid(const robot_trajectory::RobotTrajectory& trajectory,
                                 const moveit_msgs::Constraints& path_constraints,
                                 const std::vector<moveit_msgs::Constraints>& goal_constraints, const std::string& group,
-                                bool verbose, std::vector<std::size_t>* invalid_index) const
+                                bool verbose, std::vector<std::size_t>* invalid_index)
 {
   bool result = true;
   if (invalid_index)
@@ -2222,7 +2227,7 @@ bool PlanningScene::isPathValid(const robot_trajectory::RobotTrajectory& traject
 bool PlanningScene::isPathValid(const robot_trajectory::RobotTrajectory& trajectory,
                                 const moveit_msgs::Constraints& path_constraints,
                                 const moveit_msgs::Constraints& goal_constraints, const std::string& group,
-                                bool verbose, std::vector<std::size_t>* invalid_index) const
+                                bool verbose, std::vector<std::size_t>* invalid_index)
 {
   std::vector<moveit_msgs::Constraints> goal_constraints_vector(1, goal_constraints);
   return isPathValid(trajectory, path_constraints, goal_constraints_vector, group, verbose, invalid_index);
@@ -2230,14 +2235,14 @@ bool PlanningScene::isPathValid(const robot_trajectory::RobotTrajectory& traject
 
 bool PlanningScene::isPathValid(const robot_trajectory::RobotTrajectory& trajectory,
                                 const moveit_msgs::Constraints& path_constraints, const std::string& group,
-                                bool verbose, std::vector<std::size_t>* invalid_index) const
+                                bool verbose, std::vector<std::size_t>* invalid_index)
 {
   static const std::vector<moveit_msgs::Constraints> EMP_CONSTRAINTS_VECTOR;
   return isPathValid(trajectory, path_constraints, EMP_CONSTRAINTS_VECTOR, group, verbose, invalid_index);
 }
 
 bool PlanningScene::isPathValid(const robot_trajectory::RobotTrajectory& trajectory, const std::string& group,
-                                bool verbose, std::vector<std::size_t>* invalid_index) const
+                                bool verbose, std::vector<std::size_t>* invalid_index)
 {
   static const moveit_msgs::Constraints EMP_CONSTRAINTS;
   static const std::vector<moveit_msgs::Constraints> EMP_CONSTRAINTS_VECTOR;
@@ -2245,14 +2250,14 @@ bool PlanningScene::isPathValid(const robot_trajectory::RobotTrajectory& traject
 }
 
 void PlanningScene::getCostSources(const robot_trajectory::RobotTrajectory& trajectory, std::size_t max_costs,
-                                   std::set<collision_detection::CostSource>& costs, double overlap_fraction) const
+                                   std::set<collision_detection::CostSource>& costs, double overlap_fraction)
 {
   getCostSources(trajectory, max_costs, std::string(), costs, overlap_fraction);
 }
 
 void PlanningScene::getCostSources(const robot_trajectory::RobotTrajectory& trajectory, std::size_t max_costs,
                                    const std::string& group_name, std::set<collision_detection::CostSource>& costs,
-                                   double overlap_fraction) const
+                                   double overlap_fraction)
 {
   collision_detection::CollisionRequest creq;
   creq.max_cost_sources = max_costs;
@@ -2285,14 +2290,14 @@ void PlanningScene::getCostSources(const robot_trajectory::RobotTrajectory& traj
 }
 
 void PlanningScene::getCostSources(const robot_state::RobotState& state, std::size_t max_costs,
-                                   std::set<collision_detection::CostSource>& costs) const
+                                   std::set<collision_detection::CostSource>& costs)
 {
   getCostSources(state, max_costs, std::string(), costs);
 }
 
 void PlanningScene::getCostSources(const robot_state::RobotState& state, std::size_t max_costs,
                                    const std::string& group_name,
-                                   std::set<collision_detection::CostSource>& costs) const
+                                   std::set<collision_detection::CostSource>& costs)
 {
   collision_detection::CollisionRequest creq;
   creq.max_cost_sources = max_costs;

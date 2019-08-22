@@ -57,7 +57,7 @@ collision_detection::CollisionEnvAllValid::CollisionEnvAllValid(const CollisionE
 }
 
 void collision_detection::CollisionEnvAllValid::checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
-                                                                    const robot_state::RobotState& state) const
+                                                                    const robot_state::RobotState& state)
 {
   res.collision = false;
   if (req.verbose)
@@ -66,7 +66,7 @@ void collision_detection::CollisionEnvAllValid::checkRobotCollision(const Collis
 
 void collision_detection::CollisionEnvAllValid::checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                                                     const robot_state::RobotState& state,
-                                                                    const AllowedCollisionMatrix& acm) const
+                                                                    const AllowedCollisionMatrix& acm)
 {
   res.collision = false;
   if (req.verbose)
@@ -75,7 +75,7 @@ void collision_detection::CollisionEnvAllValid::checkRobotCollision(const Collis
 
 void collision_detection::CollisionEnvAllValid::checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                                                     const robot_state::RobotState& state1,
-                                                                    const robot_state::RobotState& state2) const
+                                                                    const robot_state::RobotState& state2)
 {
   res.collision = false;
   if (req.verbose)
@@ -85,7 +85,7 @@ void collision_detection::CollisionEnvAllValid::checkRobotCollision(const Collis
 void collision_detection::CollisionEnvAllValid::checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                                                     const robot_state::RobotState& state1,
                                                                     const robot_state::RobotState& state2,
-                                                                    const AllowedCollisionMatrix& acm) const
+                                                                    const AllowedCollisionMatrix& acm)
 {
   res.collision = false;
   if (req.verbose)
@@ -94,7 +94,7 @@ void collision_detection::CollisionEnvAllValid::checkRobotCollision(const Collis
 
 void collision_detection::CollisionEnvAllValid::distanceRobot(const collision_detection::DistanceRequest& req,
                                                               collision_detection::DistanceResult& res,
-                                                              const moveit::core::RobotState& state) const
+                                                              const moveit::core::RobotState& state)
 {
   res.collision = false;
 }
@@ -111,7 +111,7 @@ double collision_detection::CollisionEnvAllValid::distanceRobot(const robot_stat
 }
 
 void collision_detection::CollisionEnvAllValid::checkSelfCollision(const CollisionRequest& req, CollisionResult& res,
-                                                                   const robot_state::RobotState& state) const
+                                                                   const robot_state::RobotState& state)
 {
   res.collision = false;
   if (req.verbose)
@@ -120,7 +120,7 @@ void collision_detection::CollisionEnvAllValid::checkSelfCollision(const Collisi
 
 void collision_detection::CollisionEnvAllValid::checkSelfCollision(const CollisionRequest& req, CollisionResult& res,
                                                                    const robot_state::RobotState& state,
-                                                                   const AllowedCollisionMatrix& acm) const
+                                                                   const AllowedCollisionMatrix& acm)
 {
   res.collision = false;
   if (req.verbose)
@@ -129,7 +129,7 @@ void collision_detection::CollisionEnvAllValid::checkSelfCollision(const Collisi
 
 void collision_detection::CollisionEnvAllValid::distanceSelf(const collision_detection::DistanceRequest& req,
                                                              collision_detection::DistanceResult& res,
-                                                             const moveit::core::RobotState& state) const
+                                                             const moveit::core::RobotState& state)
 {
   res.collision = false;
 }

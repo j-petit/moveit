@@ -122,7 +122,7 @@ public:
       \param planning_scene The planning scene where motion planning is to be done
       \param req The request for motion planning
       \param res The motion planning response */
-  bool generatePlan(const planning_scene::PlanningSceneConstPtr& planning_scene,
+  bool generatePlan(const planning_scene::PlanningScenePtr& planning_scene,
                     const planning_interface::MotionPlanRequest& req,
                     planning_interface::MotionPlanResponse& res) const;
 
@@ -134,7 +134,7 @@ public:
      add the current state of the robot as prefix, when the robot started to plan only from near that state, as the
      current state itself appears to touch obstacles). This is helpful because the added states should not be considered
      invalid in all situations. */
-  bool generatePlan(const planning_scene::PlanningSceneConstPtr& planning_scene,
+  bool generatePlan(const planning_scene::PlanningScenePtr& planning_scene,
                     const planning_interface::MotionPlanRequest& req, planning_interface::MotionPlanResponse& res,
                     std::vector<std::size_t>& adapter_added_state_index) const;
 

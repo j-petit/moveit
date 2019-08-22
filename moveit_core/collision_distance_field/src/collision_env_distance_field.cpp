@@ -224,7 +224,7 @@ CollisionEnvDistanceField::getDistanceFieldCacheEntry(const std::string& group_n
 
 void CollisionEnvDistanceField::checkSelfCollision(const collision_detection::CollisionRequest& req,
                                                    collision_detection::CollisionResult& res,
-                                                   const moveit::core::RobotState& state) const
+                                                   const moveit::core::RobotState& state)
 {
   GroupStateRepresentationPtr gsr;
   checkSelfCollisionHelper(req, res, state, nullptr, gsr);
@@ -241,7 +241,7 @@ void CollisionEnvDistanceField::checkSelfCollision(const collision_detection::Co
 void CollisionEnvDistanceField::checkSelfCollision(const collision_detection::CollisionRequest& req,
                                                    collision_detection::CollisionResult& res,
                                                    const moveit::core::RobotState& state,
-                                                   const collision_detection::AllowedCollisionMatrix& acm) const
+                                                   const collision_detection::AllowedCollisionMatrix& acm)
 {
   GroupStateRepresentationPtr gsr;
   checkSelfCollisionHelper(req, res, state, &acm, gsr);
@@ -1388,7 +1388,7 @@ bool CollisionEnvDistanceField::compareCacheEntryToAllowedCollisionMatrix(
 // }
 
 void CollisionEnvDistanceField::checkCollision(const CollisionRequest& req, CollisionResult& res,
-                                               const robot_state::RobotState& state) const
+                                               const robot_state::RobotState& state)
 {
   GroupStateRepresentationPtr gsr;
   checkCollision(req, res, state, gsr);
@@ -1421,7 +1421,7 @@ void CollisionEnvDistanceField::checkCollision(const CollisionRequest& req, Coll
 
 void CollisionEnvDistanceField::checkCollision(const CollisionRequest& req, CollisionResult& res,
                                                const robot_state::RobotState& state,
-                                               const AllowedCollisionMatrix& acm) const
+                                               const AllowedCollisionMatrix& acm)
 {
   GroupStateRepresentationPtr gsr;
   checkCollision(req, res, state, acm, gsr);
@@ -1453,7 +1453,7 @@ void CollisionEnvDistanceField::checkCollision(const CollisionRequest& req, Coll
 }
 
 void CollisionEnvDistanceField::checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
-                                                    const robot_state::RobotState& state) const
+                                                    const robot_state::RobotState& state)
 {
   GroupStateRepresentationPtr gsr;
   checkRobotCollision(req, res, state, gsr);
@@ -1480,7 +1480,7 @@ void CollisionEnvDistanceField::checkRobotCollision(const CollisionRequest& req,
 
 void CollisionEnvDistanceField::checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                                     const robot_state::RobotState& state,
-                                                    const AllowedCollisionMatrix& acm) const
+                                                    const AllowedCollisionMatrix& acm)
 {
   GroupStateRepresentationPtr gsr;
   checkRobotCollision(req, res, state, acm, gsr);
@@ -1510,14 +1510,14 @@ void CollisionEnvDistanceField::checkRobotCollision(const CollisionRequest& req,
 void CollisionEnvDistanceField::checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                                     const robot_state::RobotState& state1,
                                                     const robot_state::RobotState& state2,
-                                                    const AllowedCollisionMatrix& acm) const
+                                                    const AllowedCollisionMatrix& acm)
 {
   ROS_ERROR_NAMED("collision_detection.distance", "Continuous collision checking not implemented");
 }
 
 void CollisionEnvDistanceField::checkRobotCollision(const CollisionRequest& req, CollisionResult& res,
                                                     const robot_state::RobotState& state1,
-                                                    const robot_state::RobotState& state2) const
+                                                    const robot_state::RobotState& state2)
 {
   ROS_ERROR_NAMED("collision_detection.distance", "Continuous collision checking not implemented");
 }

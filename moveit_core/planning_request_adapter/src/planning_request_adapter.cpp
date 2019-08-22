@@ -58,19 +58,19 @@ bool callPlannerInterfaceSolve(const planning_interface::PlannerManager* planner
 }  // namespace
 
 bool PlanningRequestAdapter::adaptAndPlan(const planning_interface::PlannerManagerPtr& planner,
-                                          const planning_scene::PlanningSceneConstPtr& planning_scene,
+                                          const planning_scene::PlanningScenePtr& planning_scene,
                                           const planning_interface::MotionPlanRequest& req,
                                           planning_interface::MotionPlanResponse& res,
-                                          std::vector<std::size_t>& added_path_index) const
+                                          std::vector<std::size_t>& added_path_index)
 {
   return adaptAndPlan(boost::bind(&callPlannerInterfaceSolve, planner.get(), _1, _2, _3), planning_scene, req, res,
                       added_path_index);
 }
 
 bool PlanningRequestAdapter::adaptAndPlan(const planning_interface::PlannerManagerPtr& planner,
-                                          const planning_scene::PlanningSceneConstPtr& planning_scene,
+                                          const planning_scene::PlanningScenePtr& planning_scene,
                                           const planning_interface::MotionPlanRequest& req,
-                                          planning_interface::MotionPlanResponse& res) const
+                                          planning_interface::MotionPlanResponse& res)
 {
   std::vector<std::size_t> dummy;
   return adaptAndPlan(planner, planning_scene, req, res, dummy);
@@ -80,8 +80,8 @@ namespace
 {
 // boost bind is not happy with overloading, so we add intermediate function objects
 
-bool callAdapter1(const PlanningRequestAdapter* adapter, const planning_interface::PlannerManagerPtr& planner,
-                  const planning_scene::PlanningSceneConstPtr& planning_scene,
+bool callAdapter1(PlanningRequestAdapter* adapter, const planning_interface::PlannerManagerPtr& planner,
+                  const planning_scene::PlanningScenePtr& planning_scene,
                   const planning_interface::MotionPlanRequest& req, planning_interface::MotionPlanResponse& res,
                   std::vector<std::size_t>& added_path_index)
 {
@@ -98,8 +98,8 @@ bool callAdapter1(const PlanningRequestAdapter* adapter, const planning_interfac
   }
 }
 
-bool callAdapter2(const PlanningRequestAdapter* adapter, const PlanningRequestAdapter::PlannerFn& planner,
-                  const planning_scene::PlanningSceneConstPtr& planning_scene,
+bool callAdapter2(PlanningRequestAdapter* adapter, const PlanningRequestAdapter::PlannerFn& planner,
+                  const planning_scene::PlanningScenePtr& planning_scene,
                   const planning_interface::MotionPlanRequest& req, planning_interface::MotionPlanResponse& res,
                   std::vector<std::size_t>& added_path_index)
 {
@@ -118,19 +118,19 @@ bool callAdapter2(const PlanningRequestAdapter* adapter, const PlanningRequestAd
 }  // namespace
 
 bool PlanningRequestAdapterChain::adaptAndPlan(const planning_interface::PlannerManagerPtr& planner,
-                                               const planning_scene::PlanningSceneConstPtr& planning_scene,
+                                               const planning_scene::PlanningScenePtr& planning_scene,
                                                const planning_interface::MotionPlanRequest& req,
-                                               planning_interface::MotionPlanResponse& res) const
+                                               planning_interface::MotionPlanResponse& res)
 {
   std::vector<std::size_t> dummy;
   return adaptAndPlan(planner, planning_scene, req, res, dummy);
 }
 
 bool PlanningRequestAdapterChain::adaptAndPlan(const planning_interface::PlannerManagerPtr& planner,
-                                               const planning_scene::PlanningSceneConstPtr& planning_scene,
+                                               const planning_scene::PlanningScenePtr& planning_scene,
                                                const planning_interface::MotionPlanRequest& req,
                                                planning_interface::MotionPlanResponse& res,
-                                               std::vector<std::size_t>& added_path_index) const
+                                               std::vector<std::size_t>& added_path_index)
 {
   // if there are no adapters, run the planner directly
   if (adapters_.empty())
